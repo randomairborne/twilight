@@ -39,6 +39,8 @@ mod session;
 mod shard;
 mod tls;
 
+#[cfg(any(feature = "zlib-stock", feature = "zlib-simd"))]
+pub use self::inflater::Inflater;
 pub use self::{
     channel::MessageSender,
     command::Command,
@@ -51,8 +53,6 @@ pub use self::{
     session::Session,
     shard::{ConnectionStatus, Shard},
 };
-#[cfg(any(feature = "zlib-stock", feature = "zlib-simd"))]
-pub use inflater::Inflater;
 pub use twilight_model::gateway::{CloseFrame, Intents};
 
 #[doc(no_inline)]
