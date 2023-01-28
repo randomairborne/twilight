@@ -10,8 +10,6 @@
 //! [`GetMember`]: super::super::request::guild::member::GetMember
 //! [`Response`]: super::Response
 
-use std::marker::PhantomData;
-
 /// Marker that a response has no body. Responses with this marker can't be
 /// deserialized.
 ///
@@ -22,16 +20,6 @@ use std::marker::PhantomData;
 #[derive(Clone, Debug, Eq, PartialEq)]
 #[non_exhaustive]
 pub struct EmptyBody;
-
-/// Marker that a response has a list of something.
-///
-/// May be used via the [`Response::models`].
-///
-/// [`Response::models`]: super::Response::<ListBody<T>>::models
-#[derive(Clone, Debug, Eq, PartialEq)]
-pub struct ListBody<T> {
-    phantom: PhantomData<T>,
-}
 
 /// Marker that a response has a member.
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -45,12 +33,11 @@ pub struct MemberListBody;
 
 #[cfg(test)]
 mod tests {
-    use super::{EmptyBody, ListBody, MemberBody, MemberListBody};
+    use super::{EmptyBody, MemberBody, MemberListBody};
     use static_assertions::assert_impl_all;
     use std::fmt::Debug;
 
     assert_impl_all!(EmptyBody: Clone, Debug, Eq, PartialEq, Send, Sync);
-    assert_impl_all!(ListBody<String>: Clone, Debug, Eq, PartialEq, Send, Sync);
     assert_impl_all!(MemberBody: Clone, Debug, Eq, PartialEq, Send, Sync);
     assert_impl_all!(MemberListBody: Clone, Debug, Eq, PartialEq, Send, Sync);
 }
